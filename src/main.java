@@ -41,5 +41,19 @@ public class main {
         int xCoord = scan.nextInt()-1;
         bord.firstClick(yCoord,xCoord);
 
+        //links of rechts klikken
+        System.out.println("linker of rechter klik ? (input format: linker/rechter");
+        String in = scan.nextLine();
+        //coord updaten
+        System.out.println("rij nummer ?");
+        yCoord = scan.nextInt()-1;
+        System.out.println("kollom nummer ?");
+        xCoord = scan.nextInt()-1;
+        if (in.equals("rechter")){
+
+        }
+        if (in.equals("linker")){
+            bord.leftClick(yCoord,xCoord);
+        }
     }
 }

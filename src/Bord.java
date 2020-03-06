@@ -97,10 +97,22 @@ public class Bord {
             System.out.println("You died better luck next time");
             for (Cell[] cl : bord) {
                 for (Cell cell : cl) {
-
+                    cell.setVisible(true);
                 }
             }
+            printField();
         }
+        else{
+            bord[r][c].setVisible(true);
+            printField();
+        }
+    }
+
+    public void rightClick(int r, int c){
+        if (bord[r][c].isFlagged()){
+            bord[r][c].setFlagged(false);
+        }
+        bord[r][c].setFlagged(true);
     }
 
 }
