@@ -5,6 +5,7 @@ public class Bord {
 
     private int rows;
     private int columns;
+    private int nrofBombs;
     private Cell[][] bord;
 
     public Bord (int rs, int cs){
@@ -52,10 +53,10 @@ public class Bord {
                     if (cell.isFlagged()) {
                         System.out.print("[F]");
                     }
-                    if (cell.isBomb()){
+                    if (cell.isBomb() && !cell.isFlagged()){
                         System.out.print("[B]");
                     }
-                    else {
+                    if (!cell.isFlagged() && !cell.isBomb()){
                         System.out.print("[" + cell.getValue() + "]");
                     }
                 }
@@ -79,14 +80,22 @@ public class Bord {
     }
 
     public void revealAround(int x, int y){
-        for (int i = x-1 ; i<x+2 ; i++){
-            for (int j = y-1 ; j<y+2 ; j++){
-                if (i>=0 && i<rows && j>=0 && j<columns){
-                    bord[i][j].setVisible(true);
+        bord[x][y].setVisible(true);
+        if (bord[x][y].getValue()==0) {
+            for (int i = x - 1; i < x + 2; i++) {
+                for (int j = y - 1; j < y + 2; j++) {
+                    if (i >= 0 && i < rows && j >= 0 && j < columns) {
+                        if (!bord[i][j].isVisible() && !bord[i][j].isBomb()&& bord[i][j].getValue()==0) {
+                            bord[i][j].setVisible(true);
+                            revealAround(i, j);
+                        }
+                        if (!bord[i][j].isBomb()) {
+                            bord[i][j].setVisible(true);
+                        }
+                    }
                 }
             }
         }
-        printField();
     }
 
     public void firstClick(int r,int c){
@@ -94,14 +103,15 @@ public class Bord {
             if (bord[r][c].isBomb()) {
                 bord[r][c].setBomb(false);
                 addBombs(1);
-            } else {
-                bord[r][c].setVisible(true);
+            }
+            else {
                 calcValues();
+                revealAround(r,c);
+                }
                 printField();
                 break;
             }
         }
-    }
 
     public boolean leftClick(int r, int c) {
         if (bord[r][c].isBomb()) {
@@ -114,14 +124,8 @@ public class Bord {
             printField();
             return false;
         }
-        if (bord[r][c].getValue()==0){
-            revealAround(r,c);
-            bord[r][c].setVisible(true);
-            printField();
-            return true;
-        }
         else{
-            bord[r][c].setVisible(true);
+            revealAround(r,c);
             printField();
             return true;
         }
@@ -130,12 +134,40 @@ public class Bord {
     public void rightClick(int r, int c){
         if (bord[r][c].isFlagged()){
             bord[r][c].setFlagged(false);
+            bord[r][c].setVisible(false);
             printField();
         }
         else{
             bord[r][c].setFlagged(true);
+            bord[r][c].setVisible(true);
             printField();
         }
+    }
+
+    //winconditie
+    public boolean winCheck(){
+        int counter = 0;
+        for (Cell[] c : bord){
+            for (Cell cell :c){
+                if (cell.isBomb() && cell.isFlagged()){
+                    counter++;
+                }
+                if (cell.isFlagged() && !cell.isBomb()){
+                    counter--;
+                }
+            }
+        }
+        if (counter == nrofBombs){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //om totaal aantal bommen in te lezen
+    public void setNrOfBombs(int x){
+        nrofBombs = x;
     }
 
 }

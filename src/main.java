@@ -19,6 +19,7 @@ public class main {
         //hoe veel bommen ? & bommen toeveoegen
         System.out.println("how many Bombs? maximum "+(rows*columns/2)+" Bombs");
         int bombs = scan.nextInt();
+        bord.setNrOfBombs(bombs);
         while (true){
             if (bombs <= (rows*columns/2)) {
                 bord.addBombs(bombs);
@@ -46,11 +47,14 @@ public class main {
             //links of rechts klikken
             System.out.println("linker of rechter klik ? (input format: linker/rechter)");
             String in = scan.next();
+
             //coord updaten
             System.out.println("rij nummer ?");
             yCoord = scan.nextInt() - 1;
             System.out.println("kollom nummer ?");
             xCoord = scan.nextInt() - 1;
+
+            //rechter of linker
             if (in.equals("rechter")) {
                 bord.rightClick(yCoord, xCoord);
             }
@@ -58,6 +62,11 @@ public class main {
                 if (!bord.leftClick(yCoord, xCoord)){
                     break;
                 }
+            }
+
+            if (bord.winCheck()){
+                System.out.println("Congratulations you have completed the bord!");
+                break;
             }
         }
     }
