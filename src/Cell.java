@@ -2,7 +2,7 @@ public class Cell {
 
     private int row;
     private int column;
-    private boolean visible =true;
+    private boolean visible;
     private boolean isBomb;
     private boolean flagged;
     private int value;

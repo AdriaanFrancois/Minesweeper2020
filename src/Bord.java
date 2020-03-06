@@ -78,6 +78,17 @@ public class Bord {
         }
     }
 
+    public void revealAround(int x, int y){
+        for (int i = x-1 ; i<x+2 ; i++){
+            for (int j = y-1 ; j<y+2 ; j++){
+                if (i>=0 && i<rows && j>=0 && j<columns){
+                    bord[i][j].setVisible(true);
+                }
+            }
+        }
+        printField();
+    }
+
     public void firstClick(int r,int c){
         while(true) {
             if (bord[r][c].isBomb()) {
@@ -92,7 +103,7 @@ public class Bord {
         }
     }
 
-    public void leftClick(int r, int c) {
+    public boolean leftClick(int r, int c) {
         if (bord[r][c].isBomb()) {
             System.out.println("You died better luck next time");
             for (Cell[] cl : bord) {
@@ -101,18 +112,30 @@ public class Bord {
                 }
             }
             printField();
+            return false;
+        }
+        if (bord[r][c].getValue()==0){
+            revealAround(r,c);
+            bord[r][c].setVisible(true);
+            printField();
+            return true;
         }
         else{
             bord[r][c].setVisible(true);
             printField();
+            return true;
         }
     }
 
     public void rightClick(int r, int c){
         if (bord[r][c].isFlagged()){
             bord[r][c].setFlagged(false);
+            printField();
         }
-        bord[r][c].setFlagged(true);
+        else{
+            bord[r][c].setFlagged(true);
+            printField();
+        }
     }
 
 }
