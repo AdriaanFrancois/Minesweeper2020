@@ -2,7 +2,7 @@ public class Cell {
 
     private int row;
     private int column;
-    private boolean visible = true;
+    private boolean visible =true;
     private boolean isBomb;
     private boolean flagged;
     private int value;
@@ -24,8 +24,8 @@ public class Cell {
         return isBomb;
     }
 
-    public void setBomb() {
-        isBomb = true;
+    public void setBomb(boolean bomb) {
+        isBomb = bomb;
     }
 
     public boolean isFlagged() {

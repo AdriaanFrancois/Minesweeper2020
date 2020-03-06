@@ -1,24 +1,45 @@
 import java.util.Scanner;
 
 public class main {
-    Scanner scan = new Scanner(System.in);
 
     public static void main(String[] arg){
-        Bord bord = new Bord(5,5);
-        bord.addBombs(5);
+        Scanner scan = new Scanner(System.in);
+
+        // rijen binnehalen
+        System.out.println("how many rows?");
+        int rows = scan.nextInt();
+
+        //kolommen binnen halen
+        System.out.println("how many columns?");
+        int columns = scan.nextInt();
+
+        //bord maken
+        Bord bord = new Bord(columns,rows);
+
+        //hoe veel bommen ? & bommen toeveoegen
+        System.out.println("how many Bombs? maximum "+(rows*columns/2)+" Bombs");
+        int bombs = scan.nextInt();
+        while (true){
+            if (bombs <= (rows*columns/2)) {
+                bord.addBombs(bombs);
+                break;
+            }
+            else{
+                System.out.println("Te veel Bommen, gelieve nieuw aantal in te geven");
+                bombs = scan.nextInt();
+            }
+        }
+
+        //berekenen en printen
         bord.calcValues();
         bord.printField();
+
+        //eerste klik
+        System.out.println("rij nummer ?");
+        int yCoord = scan.nextInt()-1;
+        System.out.println("kollom nummer ?");
+        int xCoord = scan.nextInt()-1;
+        bord.firstClick(yCoord,xCoord);
+
     }
-
-    public int askRows(){
-        System.out.println("how many rows?");
-        return scan.nextInt();
-    }
-
-    public int askCol(){
-        System.out.println("how many columns?");
-        return scan.nextInt();
-    }
-
-
 }

@@ -70,11 +70,37 @@ public class Bord {
             int posx = rand.nextInt(rows);
             int posy = rand.nextInt(columns);
             if (!bord[posx][posy].isBomb()){
-                bord[posx][posy].setBomb();
+                bord[posx][posy].setBomb(true);
             }
             else{
                 b--;
             }
         }
     }
+
+    public void firstClick(int r,int c){
+        while(true) {
+            if (bord[r][c].isBomb()) {
+                bord[r][c].setBomb(false);
+                addBombs(1);
+            } else {
+                bord[r][c].setVisible(true);
+                calcValues();
+                printField();
+                break;
+            }
+        }
+    }
+
+    public void leftClick(int r, int c) {
+        if (bord[r][c].isBomb()) {
+            System.out.println("You died better luck next time");
+            for (Cell[] cl : bord) {
+                for (Cell cell : cl) {
+
+                }
+            }
+        }
+    }
+
 }
